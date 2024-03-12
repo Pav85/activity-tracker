@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import { db } from "./firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [date, setDate] = useState("");
+  const [subject, setSubject] = useState("");
+  const [hours, setHours] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const docRef = await addDoc(collection(db, "activities"), {
+        date: date,
+        subject: subject,
+        hours: hours,
+      });
+      console.log("Document written with ID: ", docRef.id);
+
+      setDate("");
+      setSubject("");
+      setHours("");
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="App">
+      <h1>Activity Tracker</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          value={subject}
+          placeholder="Subject"
+          onChange={(e) => setSubject(e.target.value)}
+          required
+        />
+        <input
+          type="number"
+          value={hours}
+          placeholder="Hours"
+          onChange={(e) => setHours(e.target.value)}
+          required
+          min="1"
+          step="1"
+        />
+        <button type="submit">Add Activity</button>
+      </form>
+    </div>
+  );
+};
 
-export default App
+export default App;
