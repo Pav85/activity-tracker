@@ -21,12 +21,6 @@ const App = () => {
       }
     };
 
-    const savedCategory = localStorage.getItem("selectedCategory");
-    if (savedCategory) setSelectedCategory(savedCategory);
-
-    const savedPage = localStorage.getItem("currentPage");
-    setCurrentPage(savedPage || "selectCategory");
-
     fetchCategories();
   }, []);
 
