@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "./firebaseConfig";
-import { collection, doc, setDoc, addDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, addDoc } from "firebase/firestore";
 import "./App.css";
 
 const App = () => {
@@ -12,14 +12,27 @@ const App = () => {
   const [isCategorySelected, setIsCategorySelected] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const querySnapshot = await getDocs(collection(db, "categories"));
+      const loadedCategories = [];
+      querySnapshot.forEach((doc) => {
+        loadedCategories.push(doc.id);
+      });
+      setCategories(loadedCategories);
+    };
+
+    fetchCategories();
+  }, []);
+
   const handleCategoryCreation = async (e) => {
     e.preventDefault();
     if (category && !categories.includes(category)) {
       const newCategoryName = category.trim().toLowerCase();
-      await setDoc(doc(db, newCategoryName, "placeholder"), {
+      await setDoc(doc(db, "categories", newCategoryName), {
         initialized: true,
       });
-      setCategories([...categories, category]);
+      setCategories([...categories, newCategoryName]);
       setCategory("");
     }
   };
@@ -33,7 +46,14 @@ const App = () => {
     e.preventDefault();
 
     try {
-      const docRef = await addDoc(collection(db, selectedCategory), {
+      const activitiesRef = collection(
+        db,
+        "categories",
+        selectedCategory,
+        "activities"
+      );
+
+      const docRef = await addDoc(activitiesRef, {
         date: date,
         subject: subject,
         hours: hours,
@@ -50,9 +70,11 @@ const App = () => {
     }
   };
 
+  const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
   return (
     <div className="App">
-      <h1>Track Your Activities</h1>
+      <h1>Activity Tracker</h1>
       {!isCategorySelected ? (
         <div>
           <form onSubmit={handleCategoryCreation}>
@@ -68,37 +90,40 @@ const App = () => {
           <div>
             {categories.map((cat, index) => (
               <button key={index} onClick={() => handleCategorySelection(cat)}>
-                {cat}
+                {capitalize(cat)}
               </button>
             ))}
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            value={subject}
-            placeholder="Subject"
-            onChange={(e) => setSubject(e.target.value)}
-            required
-          />
-          <input
-            type="number"
-            value={hours}
-            placeholder="Hours"
-            onChange={(e) => setHours(e.target.value)}
-            required
-            min="1"
-            step="1"
-          />
-          <button type="submit">Add Activity</button>
-        </form>
+        <React.Fragment>
+          <h2>Adding Activity for: {capitalize(selectedCategory)}</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+            <input
+              type="text"
+              value={subject}
+              placeholder="Subject"
+              onChange={(e) => setSubject(e.target.value)}
+              required
+            />
+            <input
+              type="number"
+              value={hours}
+              placeholder="Hours"
+              onChange={(e) => setHours(e.target.value)}
+              required
+              min="1"
+              step="1"
+            />
+            <button type="submit">Add Activity</button>
+          </form>
+        </React.Fragment>
       )}
     </div>
   );
