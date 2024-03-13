@@ -91,7 +91,11 @@ const App = () => {
           </form>
           <div>
             {categories.map((cat, index) => (
-              <button key={index} onClick={() => handleCategorySelection(cat)}>
+              <button
+                key={index}
+                onClick={() => handleCategorySelection(cat)}
+                className="category-button"
+              >
                 {capitalize(cat)}
               </button>
             ))}
