@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 
 const CategorySelection = ({
   categories,
@@ -39,6 +40,12 @@ const CategorySelection = ({
       </div>
     </>
   );
+};
+
+CategorySelection.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onCategorySelect: PropTypes.func.isRequired,
+  onCategoryCreate: PropTypes.func.isRequired,
 };
 
 export default CategorySelection;
