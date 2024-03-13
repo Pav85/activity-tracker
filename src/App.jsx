@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "./firebaseConfig";
 import { collection, getDocs, doc, setDoc, addDoc } from "firebase/firestore";
 import "./App.css";
+import CategorySelection from "./components/CategorySelection";
 
 const App = () => {
   const [category, setCategory] = useState("");
@@ -92,30 +93,11 @@ const App = () => {
       <h1>Activity Tracker</h1>
       <hr></hr>
       {currentPage === "selectCategory" ? (
-        <React.Fragment>
-          <h2>Choose existing or create a new category</h2>
-          <form onSubmit={handleCategoryCreation}>
-            <input
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              placeholder="Enter category name"
-              required
-            />
-            <button type="submit">Create</button>
-          </form>
-          <div>
-            {categories.map((cat, index) => (
-              <button
-                key={index}
-                onClick={() => handleCategorySelection(cat)}
-                className="category-button"
-              >
-                {capitalize(cat)}
-              </button>
-            ))}
-          </div>
-        </React.Fragment>
+        <CategorySelection
+          categories={categories}
+          onCategorySelect={handleCategorySelection}
+          onCategoryCreate={handleCategoryCreation}
+        />
       ) : (
         <React.Fragment>
           <h2>{capitalize(selectedCategory)}</h2>
