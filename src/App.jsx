@@ -9,8 +9,8 @@ const App = () => {
   const [date, setDate] = useState("");
   const [subject, setSubject] = useState("");
   const [hours, setHours] = useState("");
-  const [isCategorySelected, setIsCategorySelected] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState("selectCategory");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -20,21 +20,28 @@ const App = () => {
         loadedCategories.push(doc.id);
       });
       setCategories(loadedCategories);
-
-      const savedCategory = localStorage.getItem("selectedCategory");
-      if (savedCategory) {
-        setSelectedCategory(savedCategory);
-        setIsCategorySelected(true);
-      }
     };
+
+    const savedCategory = localStorage.getItem("selectedCategory");
+    const savedPage = localStorage.getItem("currentPage");
+
+    if (savedCategory) {
+      setSelectedCategory(savedCategory);
+    }
+    if (savedPage) {
+      setCurrentPage(savedPage);
+    } else {
+      setCurrentPage("selectCategory");
+    }
 
     fetchCategories();
   }, []);
 
   const handleCategorySelection = (cat) => {
     setSelectedCategory(cat);
-    setIsCategorySelected(true);
+    setCurrentPage("addActivity");
     localStorage.setItem("selectedCategory", cat);
+    localStorage.setItem("currentPage", "addActivity");
   };
 
   const handleCategoryCreation = async (e) => {
@@ -74,7 +81,8 @@ const App = () => {
   };
 
   const handleGoBack = () => {
-    setIsCategorySelected(false);
+    setCurrentPage("selectCategory");
+    localStorage.setItem("currentPage", "selectCategory");
   };
 
   const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -83,7 +91,7 @@ const App = () => {
     <div className="App">
       <h1>Activity Tracker</h1>
       <hr></hr>
-      {!isCategorySelected ? (
+      {currentPage === "selectCategory" ? (
         <React.Fragment>
           <h2>Choose existing or create a new category</h2>
           <form onSubmit={handleCategoryCreation}>
