@@ -118,7 +118,7 @@ const App = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <h2>Adding Activity for: {capitalize(selectedCategory)}</h2>
+          <h2>{capitalize(selectedCategory)}</h2>
           <form onSubmit={handleSubmit}>
             <input
               type="date"
