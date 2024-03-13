@@ -77,7 +77,8 @@ const App = () => {
       <h1>Activity Tracker</h1>
       <hr></hr>
       {!isCategorySelected ? (
-        <div>
+        <React.Fragment>
+          <h2>Choose existing or create a new category</h2>
           <form onSubmit={handleCategoryCreation}>
             <input
               type="text"
@@ -95,7 +96,7 @@ const App = () => {
               </button>
             ))}
           </div>
-        </div>
+        </React.Fragment>
       ) : (
         <React.Fragment>
           <h2>Adding Activity for: {capitalize(selectedCategory)}</h2>
