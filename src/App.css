@@ -154,6 +154,7 @@ h1 {
   margin-bottom: 16px;
   margin-top: 12px;
   text-align: center;
+  font-weight: 700;
 }
 
 h2 {
@@ -161,9 +162,15 @@ h2 {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   color: #444;
-  text-align: start;
+  /* text-align: start; */
+  text-align: center;
   width: calc(100% - 20px);
-  margin: 5px auto;
+  margin: 16px auto 4px auto;
+  opacity: 0.8;
+}
+
+hr {
+  max-width: 70%;
 }
 
 input[type="date"],

@@ -75,6 +75,7 @@ const App = () => {
   return (
     <div className="App">
       <h1>Activity Tracker</h1>
+      <hr></hr>
       {!isCategorySelected ? (
         <div>
           <form onSubmit={handleCategoryCreation}>
