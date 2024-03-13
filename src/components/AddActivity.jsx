@@ -32,7 +32,7 @@ const AddActivity = ({ selectedCategory, onGoBack }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <h2>
         {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
       </h2>
@@ -64,7 +64,7 @@ const AddActivity = ({ selectedCategory, onGoBack }) => {
       <button onClick={onGoBack} className="go-back-button">
         Back
       </button>
-    </React.Fragment>
+    </>
   );
 };
 
