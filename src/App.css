@@ -162,7 +162,6 @@ h2 {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   color: #444;
-  /* text-align: start; */
   text-align: center;
   width: calc(100% - 20px);
   margin: 16px auto 4px auto;
@@ -207,7 +206,7 @@ button:hover {
 }
 
 .category-button {
-  background-color: #008cba; /* Blue background */
+  background-color: #008cba;
   color: white;
   border: none;
   cursor: pointer;
