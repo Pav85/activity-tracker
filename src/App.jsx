@@ -20,10 +20,22 @@ const App = () => {
         loadedCategories.push(doc.id);
       });
       setCategories(loadedCategories);
+
+      const savedCategory = localStorage.getItem("selectedCategory");
+      if (savedCategory) {
+        setSelectedCategory(savedCategory);
+        setIsCategorySelected(true);
+      }
     };
 
     fetchCategories();
   }, []);
+
+  const handleCategorySelection = (cat) => {
+    setSelectedCategory(cat);
+    setIsCategorySelected(true);
+    localStorage.setItem("selectedCategory", cat);
+  };
 
   const handleCategoryCreation = async (e) => {
     e.preventDefault();
@@ -37,14 +49,8 @@ const App = () => {
     }
   };
 
-  const handleCategorySelection = (cat) => {
-    setSelectedCategory(cat);
-    setIsCategorySelected(true);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const activitiesRef = collection(
         db,
@@ -52,7 +58,6 @@ const App = () => {
         selectedCategory,
         "activities"
       );
-
       const docRef = await addDoc(activitiesRef, {
         date: date,
         subject: subject,
@@ -63,11 +68,13 @@ const App = () => {
       setDate("");
       setSubject("");
       setHours("");
-      setIsCategorySelected(false);
-      setSelectedCategory("");
     } catch (error) {
       console.error("Error adding document: ", error);
     }
+  };
+
+  const handleGoBack = () => {
+    setIsCategorySelected(false);
   };
 
   const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -129,6 +136,9 @@ const App = () => {
             />
             <button type="submit">Add Activity</button>
           </form>
+          <button onClick={handleGoBack} className="go-back-button">
+            Back
+          </button>
         </React.Fragment>
       )}
     </div>

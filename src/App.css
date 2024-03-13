@@ -139,6 +139,7 @@ body {
 }
 
 .App {
+  position: relative;
   margin: 0 auto;
   max-width: 600px;
   background: #fff;
@@ -214,4 +215,22 @@ button:hover {
 
 .category-button:hover {
   background-color: #007bb9;
+}
+
+.go-back-button {
+  /* position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 5px 10px;
+  background-color: #f4f4f4;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
+  position: absolute;
+  top: 10px;
+  width: calc(15% - 20px);
+  /* left: 78%; */
 }
