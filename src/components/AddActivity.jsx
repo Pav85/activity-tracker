@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import PropTypes from "prop-types";
 
 const AddActivity = ({ selectedCategory, onGoBack }) => {
   const [date, setDate] = useState("");
@@ -66,6 +67,10 @@ const AddActivity = ({ selectedCategory, onGoBack }) => {
       </button>
     </>
   );
+};
+AddActivity.propTypes = {
+  selectedCategory: PropTypes.string.isRequired,
+  onGoBack: PropTypes.func.isRequired,
 };
 
 export default AddActivity;
