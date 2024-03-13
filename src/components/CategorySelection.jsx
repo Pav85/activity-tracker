@@ -15,7 +15,7 @@ const CategorySelection = ({
 
   return (
     <React.Fragment>
-      <h2>Choose existing or create a new category</h2>
+      <h2>Choose an existing or create a new category</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
