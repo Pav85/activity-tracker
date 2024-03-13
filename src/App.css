@@ -156,6 +156,16 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  color: #444;
+  text-align: start;
+  width: calc(100% - 20px);
+  margin: 5px auto;
+}
+
 input[type="date"],
 input[type="text"],
 input[type="number"],
