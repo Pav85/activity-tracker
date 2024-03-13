@@ -27,8 +27,6 @@ const App = () => {
   const handleCategorySelection = (cat) => {
     setSelectedCategory(cat);
     setCurrentPage("addActivity");
-    localStorage.setItem("selectedCategory", cat);
-    localStorage.setItem("currentPage", "addActivity");
   };
 
   const handleCategoryCreation = async (category) => {
