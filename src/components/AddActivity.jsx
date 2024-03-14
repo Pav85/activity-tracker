@@ -7,6 +7,7 @@ const AddActivity = ({ selectedCategory, onGoBack }) => {
   const [date, setDate] = useState("");
   const [subject, setSubject] = useState("");
   const [hours, setHours] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +28,9 @@ const AddActivity = ({ selectedCategory, onGoBack }) => {
       setDate("");
       setSubject("");
       setHours("");
+
+      setShowSuccessModal(true);
+      setTimeout(() => setShowSuccessModal(false), 1000);
     } catch (error) {
       console.error("Error adding document: ", error);
     }
@@ -65,6 +69,20 @@ const AddActivity = ({ selectedCategory, onGoBack }) => {
       <button onClick={onGoBack} className="go-back-button">
         Back
       </button>
+
+      {showSuccessModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>Activity was successfully added</p>
+            <span
+              className="close-button"
+              onClick={() => setShowSuccessModal(false)}
+            >
+              &times;
+            </span>
+          </div>
+        </div>
+      )}
     </>
   );
 };
