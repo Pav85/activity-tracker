@@ -67,7 +67,7 @@ const AddActivity = ({ selectedCategory, onGoBack }) => {
         <button type="submit">Add Activity</button>
       </form>
       <button onClick={onGoBack} className="go-back-button">
-        Back
+        &times;
       </button>
 
       {showSuccessModal && (
