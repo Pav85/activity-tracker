@@ -10,8 +10,12 @@ const CategorySelection = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCategoryCreate(category);
-    setCategory("");
+    if (categories.length > 5) {
+      alert("You can save maximum of 5 categories!");
+    } else {
+      onCategoryCreate(category);
+      setCategory("");
+    }
   };
 
   return (
