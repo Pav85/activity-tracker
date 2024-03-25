@@ -3,6 +3,7 @@ import { db } from "./firebaseConfig";
 import { collection, getDocs, doc, setDoc } from "firebase/firestore";
 import CategorySelection from "./components/CategorySelection";
 import AddActivity from "./components/AddActivity";
+import CategoryActivities from "./components/CategoryActivities";
 import "./App.css";
 
 const App = () => {
@@ -56,10 +57,13 @@ const App = () => {
           onCategoryCreate={handleCategoryCreation}
         />
       ) : (
-        <AddActivity
-          selectedCategory={selectedCategory}
-          onGoBack={() => setCurrentPage("selectCategory")}
-        />
+        <>
+          <AddActivity
+            selectedCategory={selectedCategory}
+            onGoBack={() => setCurrentPage("selectCategory")}
+          />
+          <CategoryActivities selectedCategory={selectedCategory} />
+        </>
       )}
     </div>
   );
