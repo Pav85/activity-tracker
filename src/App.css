@@ -219,6 +219,7 @@ button:hover {
 .activities-list button {
   width: 19%;
   font-size: 14px;
+  max-width: max-content;
 }
 
 .activities-list li {
