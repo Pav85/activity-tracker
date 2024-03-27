@@ -2,8 +2,14 @@ import React, { useState, useEffect } from "react";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import "../App.css";
+
 const CategoryActivities = ({ selectedCategory }) => {
   const [activities, setActivities] = useState([]);
+  const [sortOrder, setSortOrder] = useState("desc");
+
+  const toggleSortOrder = () => {
+    setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
+  };
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -15,10 +21,19 @@ const CategoryActivities = ({ selectedCategory }) => {
           "activities"
         );
         const querySnapshot = await getDocs(activitiesCollectionRef);
-        const loadedActivities = querySnapshot.docs.map((doc) => ({
+        let loadedActivities = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
+
+        loadedActivities = loadedActivities.sort((a, b) => {
+          if (sortOrder === "asc") {
+            return a.date > b.date ? 1 : -1;
+          } else {
+            return a.date < b.date ? 1 : -1;
+          }
+        });
+
         setActivities(loadedActivities);
       } catch (error) {
         console.error("Failed to fetch activities:", error);
@@ -28,12 +43,17 @@ const CategoryActivities = ({ selectedCategory }) => {
     if (selectedCategory) {
       fetchActivities();
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, sortOrder]);
 
   return (
     <div className="activities-list">
-      <h2>Activities in "{selectedCategory}"</h2>
-      {/* i want to have a bar that shows date activity and time and i will be able to sort my recorded activities by date time and description. Also i want the activities to be displayed by date by default */}
+      <div className="sort">
+        <button onClick={toggleSortOrder}>
+          Sort {sortOrder === "asc" ? "↓" : "↑"}
+        </button>
+        <h2>Activities in "{selectedCategory}"</h2>
+      </div>
+
       {activities.length > 0 ? (
         <ul>
           {activities.map((activity) => (

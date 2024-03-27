@@ -199,20 +199,26 @@ button:hover {
 }
 
 .activities-list {
-  padding: 20px;
-  margin-top: 20px;
+  padding: 5px;
+  margin-top: 10px;
   background: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .activities-list h2 {
+  padding-top: 10px;
   margin-bottom: 20px;
 }
 
 .activities-list ul {
   list-style-type: none;
   padding: 0;
+}
+
+.activities-list button {
+  width: 19%;
+  font-size: 14px;
 }
 
 .activities-list li {
@@ -243,4 +249,9 @@ button:hover {
 
 .activity-hours {
   text-align: right;
+}
+
+.sort {
+  display: flex;
+  flex-direction: row;
 }
