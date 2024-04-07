@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import "../App.css";
 
 const CategoryActivities = ({ selectedCategory }) => {
   const [activities, setActivities] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
+  const [totalHours, setTotalHours] = useState(0); // State to hold total hours
 
   const toggleSortOrder = () => {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
@@ -26,13 +27,15 @@ const CategoryActivities = ({ selectedCategory }) => {
           ...doc.data(),
         }));
 
-        loadedActivities = loadedActivities.sort((a, b) => {
-          if (sortOrder === "asc") {
-            return a.date > b.date ? 1 : -1;
-          } else {
-            return a.date < b.date ? 1 : -1;
-          }
-        });
+        loadedActivities = loadedActivities.sort((a, b) =>
+          sortOrder === "asc"
+            ? a.date > b.date
+              ? 1
+              : -1
+            : a.date < b.date
+            ? 1
+            : -1
+        );
 
         setActivities(loadedActivities);
       } catch (error) {
@@ -45,13 +48,22 @@ const CategoryActivities = ({ selectedCategory }) => {
     }
   }, [selectedCategory, sortOrder]);
 
+  useEffect(() => {
+    const total = activities.reduce(
+      (acc, activity) => acc + Number(activity.hours),
+      0
+    );
+    setTotalHours(total);
+  }, [activities]);
+
   return (
     <div className="activities-list">
       <div className="sort">
         <button onClick={toggleSortOrder}>
           Sort {sortOrder === "asc" ? "↓" : "↑"}
         </button>
-        <h2>Activities in "{selectedCategory}"</h2>
+        <h2>Activities in {selectedCategory}</h2>
+        <h2 style={{ float: "right" }}>Total: {totalHours} hrs</h2>{" "}
       </div>
 
       {activities.length > 0 ? (
