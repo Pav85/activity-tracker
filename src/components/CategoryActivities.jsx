@@ -3,6 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import "../App.css";
 
+// eslint-disable-next-line react/prop-types
 const CategoryActivities = ({ selectedCategory }) => {
   const [activities, setActivities] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
